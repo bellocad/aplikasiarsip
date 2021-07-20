@@ -8,12 +8,14 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
 from django.contrib.auth.decorators import login_required
-#create views
+# create views
 from .models import *
 from .forms import OrderForm, DokumenForm
 from .decorators import unauthenticated_user
 
 # Create your views here.
+
+
 @unauthenticated_user
 def loginPage(request):
     if request.method == 'POST':
@@ -29,19 +31,25 @@ def loginPage(request):
             messages.info(request, 'Username or password is incorrect')
 
     context = {}
-    return render (request, 'sikept/login.html', context)
+    return render(request, 'sikept/login.html', context)
+
 
 def logoutUser(request):
     logout(request)
     return redirect('login')
 
+
 def home(request):
     orders = Order.objects.all().order_by('-date_created')
     pts = Pts.objects.all()
+    dokumen = Dokumen.objects.all()
 
     total_pts = pts.count()
-
     total_orders = orders.count()
+    total_dokumen = dokumen.count()
+
+    rekomendasi = dokumen.filter(category='Rekomendasi').count()
+    sk = dokumen.filter(category__startswith='SK').count()
     dikirim = orders.filter(status='Dikirim').count()
     pending = orders.filter(status='Pending').count()
 
@@ -54,19 +62,22 @@ def home(request):
     except EmptyPage:
         orders = paginator.page(paginator.num_pages)
 
-    context = {'order':orders, 'pts':pts, 'total_pts':total_pts, 
-    'total_orders':total_orders ,'dikirim':dikirim, 'pending':pending}
+    context = {'order': orders, 'pts': pts, 'total_pts': total_pts,
+               'total_orders': total_orders, 'total_dokumen': total_dokumen,
+               'sk': sk, 'dikirim': dikirim, 'pending': pending, 'rekomendasi': rekomendasi}
 
-    return render(request, 'sikept/dashboard.html', context)
+    return render(request, 'sikept/rekomendasi.html', context)
+
 
 def daftarPTS(request):
     pts = Pts.objects.all()
-    return render(request, 'sikept/daftar_pts.html', {'pts':pts})
+    return render(request, 'sikept/daftar_pts.html', {'pts': pts})
+
 
 @login_required(login_url='login')
 def dokumen(request):
     dokumen = Dokumen.objects.all().order_by('-date_created')
-    
+
     page = request.GET.get('page', 1)
     paginator = Paginator(dokumen, 10)
     try:
@@ -76,13 +87,15 @@ def dokumen(request):
     except EmptyPage:
         dokumen = paginator.page(paginator.num_pages)
 
-    return render(request, 'sikept/dokumen.html',{'dok':dokumen})
+    return render(request, 'sikept/dokumen.html', {'dok': dokumen})
 
-def dokumenDetail (request, pk):
+
+def dokumenDetail(request, pk):
     dokumenDetail = Dokumen.objects.get(nomor=pk)
 
-    context = {'dokumenDetail':dokumenDetail}
+    context = {'dokumenDetail': dokumenDetail}
     return render(request, 'sikept/dokumen_detail.html', context)
+
 
 def uploadDokumen(request):
     form = DokumenForm()
@@ -93,12 +106,13 @@ def uploadDokumen(request):
             form.save()
             return redirect('dokumen')
 
-    context = {'form':form}
+    context = {'form': form}
     return render(request, 'sikept/order_form.html', context)
+
 
 def pts(request, pk):
     pts = Pts.objects.get(nama_pts=pk)
-    
+
     orders = pts.order_set.all()
     order_count = orders.count()
 
@@ -108,9 +122,10 @@ def pts(request, pk):
     jenis_rekom = orders.filter(Jenis='Rekomendasi')
     jenis_surat = orders.filter(Jenis='Surat')
 
-    context = {'jenis_akta':jenis_akta, 'jenis_sk':jenis_sk, 'pts':pts, 'orders':orders, 
-                'order_count':order_count, }
+    context = {'jenis_akta': jenis_akta, 'jenis_sk': jenis_sk, 'pts': pts, 'orders': orders,
+               'order_count': order_count, }
     return render(request, 'sikept/pts.html', context)
+
 
 def createOrder(request):
     form = OrderForm()
@@ -121,12 +136,13 @@ def createOrder(request):
             form.save()
             return redirect('/')
 
-    context = {'form':form}
+    context = {'form': form}
     return render(request, 'sikept/order_form.html', context)
-    
+
+
 def orderOrder(request, pk):
     dokumen = Dokumen.objects.get(id=pk)
-    form = OrderForm(initial={'nomor':dokumen})
+    form = OrderForm(initial={'nomor': dokumen})
     if request.method == 'POST':
         #print('Printing POST:', request.POST)
         form = OrderForm(request.POST)
@@ -134,8 +150,9 @@ def orderOrder(request, pk):
             form.save()
             return redirect('/')
 
-    context = {'form':form}
+    context = {'form': form}
     return render(request, 'sikept/order_form.html', context)
+
 
 def updateOrder(request, pk):
 
@@ -148,8 +165,9 @@ def updateOrder(request, pk):
             form.save()
             return redirect('/')
 
-    context = {'form':form}
+    context = {'form': form}
     return render(request, 'sikept/order_form.html', context)
+
 
 def deleteOrder(request, pk):
     order = Order.objects.get(id=pk)
@@ -157,5 +175,33 @@ def deleteOrder(request, pk):
         order.delete()
         return redirect('/')
 
-    context = {'item':order}
+    context = {'item': order}
     return render(request, 'sikept/delete.html', context)
+
+
+def rekom(request):
+    orders = Order.objects.all().order_by('-date_created')
+    pts = Pts.objects.all()
+    dokumen = Dokumen.objects.all()
+
+    total_pts = pts.count()
+    total_orders = orders.count()
+    total_dokumen = dokumen.count()
+
+    rekomendasi = dokumen.filter(category='Rekomendasi').count()
+    dikirim = orders.filter(status='Dikirim').count()
+    pending = orders.filter(status='Pending').count()
+
+    page = request.GET.get('page', 1)
+    paginator = Paginator(orders, 10)
+    try:
+        orders = paginator.page(page)
+    except PageNotAnInteger:
+        orders = paginator.page(1)
+    except EmptyPage:
+        orders = paginator.page(paginator.num_pages)
+
+    context = {'order': orders, 'pts': pts, 'total_pts': total_pts,
+               'total_orders': total_orders, 'total_dokumen': total_dokumen, 'dikirim': dikirim, 'pending': pending, 'rekomendasi': rekomendasi}
+
+    return render(request, 'sikept/rekomendasi.html', context)

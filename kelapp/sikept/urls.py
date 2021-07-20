@@ -16,8 +16,8 @@ urlpatterns = [
     path('update_order/<str:pk>/', views.updateOrder, name="update_order"),
     path('delete_order/<str:pk>/', views.deleteOrder, name="delete_order"),
     path('order_order/<str:pk>/', views.orderOrder, name="order_order"),
-    
+
     path('daftar_pts', views.daftarPTS, name="daftarPTS"),
+    path('rekomendasi', views.rekom, name="rekomendasi"),
 
 ]
-
