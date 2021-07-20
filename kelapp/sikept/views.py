@@ -78,6 +78,11 @@ def daftarPTS(request):
 def dokumen(request):
     dokumen = Dokumen.objects.all().order_by('-date_created')
 
+    total_dokumen = dokumen.count()
+    total_rekomendasi = dokumen.filter(category__startswith='Rekomendasi').count()
+    total_sk = dokumen.filter(category__startswith='SK').count()
+    total_srtpermohonan = dokumen.filter(category='Surat Permohonan').count()
+
     page = request.GET.get('page', 1)
     paginator = Paginator(dokumen, 10)
     try:
@@ -87,7 +92,12 @@ def dokumen(request):
     except EmptyPage:
         dokumen = paginator.page(paginator.num_pages)
 
-    return render(request, 'sikept/dokumen.html', {'dok': dokumen})
+    return render(request, 'sikept/dokumen.html', {
+        'dok': dokumen, 
+        'total_dokumen': total_dokumen,
+        'total_rekomendasi': total_rekomendasi,
+        'total_sk': total_sk,
+        'total_srt': total_srtpermohonan})
 
 
 def dokumenDetail(request, pk):
