@@ -7,8 +7,11 @@
 <div class="row">
     <div class="col-md">
         <div class="card card-body">
-            <h6>Perguruan Tinggi:</h6>
             <h5>{{pts.nama_pts}}</h5>
+            <h6>Nama Badan Penyelenggara: {{pts.nama_yayasan}}</h6>
+            <h6>Jenis PTS: {{pts.jenis_pts}}</h6>
+            <h6>Status PTS: {{pts.status_pts}}</h6>
+            <h6>Provinsi: {{pts.provinsi}}</h6>
             <hr>
             <a class="btn btn-outline-info btn-sm btn-block" href="">Update Perguruan Tinggi</a>
             <a class="btn btn-outline-danger btn-sm btn-block" href="">Delete Perguruan Tinggi</a>
@@ -99,7 +102,7 @@
                                 <path fill-rule="evenodd"
                                     d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                             </svg></a></td>
-                    <td><a class="btn btn-sm btn-danger" href="{% url 'delete_order' i.id %}"><svg
+                    <td><a class="btn btn-sm btn-danger delBtn" href="{% url 'delete_order' i.id %}"><svg
                                 xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-x-square" viewBox="0 0 16 16">
                                 <path
@@ -150,7 +153,7 @@
                                 <path fill-rule="evenodd"
                                     d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                             </svg></a>
-                        <a class="btn btn-sm btn-danger" href="{% url 'delete_order' i.id %}"><svg
+                        <a class="btn btn-sm btn-danger btnDel" href="{% url 'delete_order' i.id %}"><svg
                                 xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-x-square" viewBox="0 0 16 16">
                                 <path
@@ -183,7 +186,7 @@
                         <th>Perihal</th>
                         <th>Tanggal</th>
                     </tr>
-                    {% for i in jenis_sk %}
+                    {% for i in jenis_pengesahan %}
                     <td>{{ forloop.counter }}</td>
                     <td><a href="{% url 'dokumenDetail' i.nomor %}">{{i.nomor}}</a></td>
                     <td>{{i.nomor.nama_pejabat}}</td>
@@ -241,7 +244,7 @@
                                 <path fill-rule="evenodd"
                                     d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                             </svg></a>
-                        <a class="btn btn-sm btn-danger" href="{% url 'delete_order' i.id %}"><svg
+                        <a class="btn btn-sm btn-danger btnDel" href="{% url 'delete_order' i.id %}"><svg
                                 xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-x-square" viewBox="0 0 16 16">
                                 <path

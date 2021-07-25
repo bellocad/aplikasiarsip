@@ -2,42 +2,44 @@
 
 {% block content %}
 {% load static %}
-{% include 'sikept/status.html' %}
-{% include 'sikept/confirm_delete_modal.html' %}
+{% include 'sikept/status_rekom.html' %}
 
 <section class="mb-4">
   <div class="card">
     <div class="card-header text-center py-3">
       <h5 class="mb-0 text-center">
-        <strong>Dokumen Terbaru</strong>
+        <strong>Rekomendasi</strong>
       </h5>
     </div>
+
     <div class="card-body">
+      {% include 'sikept/pencarian_rekom.html' %}
       <div class="table-responsive">
         <table class="table table-hover text-nowrap">
           <thead>
             <tr>
               <th scope="col"></th>
-              <th>Perguruan Tinggi</th>
+              <th>Nomor</th>
+              <th>Nama PTS</th>
               <th>Perihal</th>
-              <th>Tanggal</th>
-              <th>Keterangan</th>
+              <th>Tanggal Surat</th>
+              <th></th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
-            {% for i in order %}
+            {% for i in rekomorder %}
             <tr>
-              <td>{{ forloop.counter }}</td>
-              <td><a href="{% url 'pts' i.nama_pts %}">{{i.nama_pts|upper}}</a></td>
+              <td>{{ forloop.counter0|add:order.start_index }}</td>
+              <td>{{i.nomor|upper}}</td>
+              <td>{{i.nama_pts}}</td>
               <td>{{i.nomor.perihal}}</td>
-              <td>{{i.date_created}}</td>
-              <td>{{i.dokumen.category}}</td>
+              <td>{{i.nomor.tanggal_surat}}</td>
               <td>
-                <a href="{% url 'update_order' i.id %}"><i class="fas fa-edit btnedit"></i></a>
+                <a href="{% url 'dokumenDetail' i.nomor %}"><i class="fas fa-eye"></i></a>
               </td>
               <td>
-                <a href="{%  url 'delete_order' i.id %}" class="confirm-delete" title="delete" data-bs-toggle="modal"
-                  data-target="#delete" id="deleteButton{{i.id}}">
+                <a href="{%  url 'deleteRekom' i.id %}" class="confirm-delete btnDel ">
                   <i class="fas fa-trash-alt btndelete">
 
                   </i>
@@ -80,21 +82,5 @@
       </div>
     </div>
   </div>
-
 </section>
-
-
-
 {% endblock %}
-<script type="text/javascript">
-
-  $(document).on('click', '.confirm-delete', function () {
-    $("#delete").attr("caller-id", $(this).attr("id"));
-  });
-
-  $(document).on('click', '.confirmDeleteButtonModal', function () {
-    var caller = $("#confirmDeleteButtonModal").closest(".modal").attr("caller-id");
-    window.location = $("#".concat(caller)).attr("href");
-  });
-
-</script>

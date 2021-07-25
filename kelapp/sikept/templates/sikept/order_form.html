@@ -8,14 +8,13 @@
 <div class="row">
     <div class="col-md">
         <div class="card card-body">
-            <table class="table table-sm"></table>
-
+            <table class="table table-sm">
             <form action="" method="POST">
-                {% csrf_token %}
-                {{form|crispy}}
+                {% csrf_token %}{{form|crispy}}
                 <br>
-                <input class="btn btn-sm btn-info" type="submit" name="submit">
+                <td><input class="btn btn-sm btn-info" type="submit" name="simpan" value="simpan"></td>
             </form>
+
             </table>
         </div>
     </div>

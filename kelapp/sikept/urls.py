@@ -19,5 +19,12 @@ urlpatterns = [
 
     path('daftar_pts', views.daftarPTS, name="daftarPTS"),
     path('rekomendasi', views.rekom, name="rekomendasi"),
+    path('deleteRekom/<str:pk>/', views.deleteRekom, name='deleteRekom'),
+
+    path('search', views.search, name='search'),
+
+    path('surat_keputusan', views.SKeputusan, name='surat_keputusan'),
+    path('deleteSK/<str:pk>/', views.deleteSK, name='deleteSK'),
+
 
 ]

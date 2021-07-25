@@ -1,0 +1,87 @@
+{% extends 'sikept/main.html' %}
+
+{% block content %}
+
+{% load static %}
+
+{% include 'sikept/status_sk.html' %}
+
+<section class="mb-4">
+  <div class="card">
+    <div class="card-header text-center py-3">
+      <h5 class="mb-0 text-center">
+        <strong>Distribusi Surat Keputusan</strong>
+      </h5>
+    </div>
+    <div class="card-body">
+      <form method="GET" action="" class="form-group row">
+        <div class="col-auto">
+          <h6 class="mb-0 text-left">
+            {{myFilter.form}}</h6>
+        </div>
+        <div class="col-auto">
+          <button class="btn btn-success btn-sm">Cari</button>
+        </div>
+      </form>
+      
+      <div class="table-responsive">
+        <table class="table table-hover text-nowrap">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th>Perguruan Tinggi</th>
+              <th>Nomor Surat</th>
+              <th>Perihal</th>
+              <th>Tanggal</th>
+              
+            </tr>
+          </thead>
+          <tbody>
+            {% for i in sk %}
+            <tr>
+              <td>{{ forloop.counter0|add:order.start_index }}</td>
+              <td><a href="{% url 'pts' i.nama_pts %}">{{i.nama_pts|upper}}</a></td>
+              <td><a href="{% url 'dokumenDetail' i.nomor %}">{{i.nomor.nomor}}</a></td>
+              <td>{{i.nomor.perihal}}</td>
+              <td>{{i.date_created}}</td>
+              <td><a href="{% url 'update_order' i.id %}"><i class="fas fa-edit btnedit"></i></a></td>
+              <td><a class="btn btn-danger btnDel" href="/deleteSK/{{i.id}}/">Delete</a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+        {% if order.has_other_pages %}
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-center">
+            {% if order.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ order.previous_page_number }}">Previous</a></li>
+            {% else %}
+            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+            {% endif %}
+
+            {% for i in order.paginator.page_range %}
+            {% if order.number == i %}
+            <li class="page-item active"><a class="page-link" href="#">{{ i }}</a> </li>
+            {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+            {% endif %}
+            {% endfor %}
+
+            {% if order.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ order.next_page_number }}">Next</a></li>
+            {% else %}
+            <li class="page-item disabled">
+              <a class="page-link" href="#">Next</a>
+            </li>
+            {% endif %}
+          </ul>
+        </nav>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+
+</section>
+{% endblock %}

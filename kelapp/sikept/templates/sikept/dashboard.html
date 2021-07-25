@@ -3,7 +3,6 @@
 {% block content %}
 {% load static %}
 {% include 'sikept/status.html' %}
-{% include 'sikept/confirm_delete_modal.html' %}
 
 <section class="mb-4">
   <div class="card">
@@ -13,25 +12,59 @@
       </h5>
     </div>
     <div class="card-body">
+      <div class="row">
+        <div class="col">
+          <div class="card card-body">
+      
+            <form method="get">
+              <td>
+                <a class="btn btn-sm btn-warning" href="{% url 'create_order' %}">+ Dokumen</a>
+              </td>
+              <td>
+                <button class="btn btn-sm btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#Pencarian"
+                  aria-expanded="false" aria-controls="collapseExample">
+                  Pencarian
+                </button>
+              </td>
+            </form>
+      
+          </div>
+        </div>
+      </div>
+
+      <div class="collapse" id="Pencarian"><br>
+      <form method="GET" action="" class="form-group row">
+        <div class="col-auto">
+          <div class="">
+            {{myFilter.form}}</div>
+          </div>
+        <div class="col-auto">
+          <button class="btn btn-success btn-sm">Cari</button>
+        </div>
+      </form>
+      </div>
+
       <div class="table-responsive">
         <table class="table table-hover text-nowrap">
           <thead>
             <tr>
               <th scope="col"></th>
               <th>Perguruan Tinggi</th>
+              <th>Nomor Surat</th>
               <th>Perihal</th>
               <th>Tanggal</th>
-              <th>Keterangan</th>
+              
             </tr>
           </thead>
           <tbody>
             {% for i in order %}
             <tr>
-              <td>{{ forloop.counter }}</td>
+              <td>{{ forloop.counter0|add:order.start_index }}</td>
               <td><a href="{% url 'pts' i.nama_pts %}">{{i.nama_pts|upper}}</a></td>
+              <td><a href="{% url 'dokumenDetail' i.nomor %}">{{i.nomor.nomor}}</a></td>
               <td>{{i.nomor.perihal}}</td>
               <td>{{i.date_created}}</td>
-              <td>{{i.dokumen.category}}</td>
+              
               <td>
                 <a href="{% url 'update_order' i.id %}"><i class="fas fa-edit btnedit"></i></a>
               </td>
@@ -82,19 +115,4 @@
   </div>
 
 </section>
-
-
-
 {% endblock %}
-<script type="text/javascript">
-
-  $(document).on('click', '.confirm-delete', function () {
-    $("#delete").attr("caller-id", $(this).attr("id"));
-  });
-
-  $(document).on('click', '.confirmDeleteButtonModal', function () {
-    var caller = $("#confirmDeleteButtonModal").closest(".modal").attr("caller-id");
-    window.location = $("#".concat(caller)).attr("href");
-  });
-
-</script>

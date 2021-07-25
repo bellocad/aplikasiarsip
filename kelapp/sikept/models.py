@@ -24,8 +24,18 @@ class Pts(models.Model):
             ('Pembinaan', 'Pembinaan')
             )    
 
+        Jenis_pts = (
+            ('Akademi Komunitas', 'Akademi Komunitas'),
+            ('Akademi', 'Akademi'),
+            ('Politeknik', 'Politeknik'),
+            ('Sekolah Tinggi', 'Sekolah Tinggi'),
+            ('Institut', 'Institut'),
+            ('Universitas', 'Universitas')
+            )    
+
         nama_yayasan = models.ForeignKey(Yayasan, null=True, on_delete= models.SET_NULL)
         nama_pts = models.CharField(max_length=200, null=True)
+        jenis_pts = models.CharField(max_length=200, null=True, choices=Jenis_pts)
         status_pts = models.CharField(max_length=200, null=True, choices=Status_pts)
         provinsi = models.CharField(max_length=200, null=True, choices=Provinsi)
         phone = models.CharField(max_length=200, null=True)
@@ -51,10 +61,11 @@ class Dokumen(models.Model):
             ('Akta Pendirian', 'Akta Pendirian'),
             ('Akta Perubahan', 'Akta Perubahan'),
             ('SK Menkumham', 'SK Menkumham'),
-            ('Pencatatan SK Menkumham', 'Pencatatan SK Menkumham'),
+            ('SK Menkumham Pencatatan', 'SK Menkumham Pencatatan'),
             ('Rekomendasi', 'Rekomendasi'),
             ('Rekomendasi Akreditasi', 'Rekomendasi Akreditasi'),
-            ('Surat Permohonan', 'Surat Permohonan')
+            ('Surat Permohonan', 'Surat Permohonan'),
+            ('Berita Acara', 'Berita Acara')
             )
         nomor = models.CharField(max_length=200, null=True)
         perihal = models.CharField(max_length=200, null=True)
