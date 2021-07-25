@@ -9,8 +9,10 @@ urlpatterns = [
 
     path('dokumen/', views.dokumen, name='dokumen'),
     path('pts/<str:pk>/', views.pts, name='pts'),
+
     path('dokumen_detail/<path:pk>/', views.dokumenDetail, name='dokumenDetail'),
     path('upload_dokumen/', views.uploadDokumen, name="upload_dokumen"),
+    path('delete_order/<str:pk>/', views.deleteDokumen, name="delete_dokumen"),
 
     path('create_order/', views.createOrder, name="create_order"),
     path('update_order/<str:pk>/', views.updateOrder, name="update_order"),

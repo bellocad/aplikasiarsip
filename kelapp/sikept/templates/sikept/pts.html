@@ -44,32 +44,85 @@
 
             <form method="get">
                 <td>
-
-                    <a class="btn btn-sm btn-warning" href="{% url 'dokumen' %}">Upload Dokumen</a>
+                    <a class="btn btn-sm btn-warning" href="{% url 'create_order' %}">+ Dokumen</a>
                 </td>
                 <td>
-                    <button class="btn btn-sm btn-info" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#legalitas_pts" aria-expanded="false" aria-controls="collapseExample">
-                        Legalitas PTS
-                    </button>
+                    <a class="btn btn-sm btn-warning" href="{% url 'upload_dokumen' %}">Upload Dokumen</a>
+                </td>
+                <td>
+                    <a class="btn btn-sm btn-info" data-bs-toggle="collapse" href="#legalitas_pts" role="button" aria-expanded="false"
+                    aria-controls="collapseExample">
+                    Legalitas PTS
+                                        </a>
                 </td>
                 <td>
                     <a class="btn btn-sm btn-info" data-bs-toggle="collapse" href="#Rekomendasi" role="button"
-                        aria-expanded="false" aria-controls="collapseExample">
+                    aria-expanded="false" aria-controls="collapseExample">
                         Rekomendasi & Surat Permohonan
                     </a>
                 </td>
                 <td>
-                    <button class="btn btn-sm btn-info" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#Rekomendasi" aria-expanded="false" aria-controls="collapseExample">
+                    <a class="btn btn-sm btn-info" data-bs-toggle="collapse" href="#BeritaAcara" role="button" aria-expanded="false"
+                    aria-controls="collapseExample">
                         Berita Acara
-                    </button>
+                </a>
                 </td>
             </form>
 
         </div>
     </div>
 </div>
+
+<div class="collapse" id="BeritaAcara">
+    <div class="row">
+        <div class="col-md">
+            <div class="card card-body">
+                <table class="table table-sm">
+                    <h5>Berita Acara</h5>
+                    <tr>
+                        <th></th>
+                        <th>Nomor Surat</th>
+                        <th>Tanggal</th>
+                        <th>Perihal</th>
+                        <th>Pejabat</th>
+
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    {% for i in jenis_rekom %}
+                    <td>{{ forloop.counter }}</td>
+                    <td><a href="{% url 'dokumenDetail' i.nomor %}">{{i.nomor}}</a></td>
+                    <td>{{i.nomor.tanggal_surat}}</td>
+                    <td>{{i.nomor.perihal}}</td>
+                    <td>{{i.nomor.nama_pejabat}}</td>
+
+                    <td><a class="btn btn-sm btn-info" href="{% url 'update_order' i.id %} ">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                <path
+                                    d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                <path fill-rule="evenodd"
+                                    d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                            </svg></a>
+                        <a class="btn btn-sm btn-danger delBtn" href="{% url 'delete_order' i.id %}"><svg
+                                xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-x-square" viewBox="0 0 16 16">
+                                <path
+                                    d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                                <path
+                                    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                            </svg>
+                    </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
 <br>
 <div class="collapse" id="Rekomendasi">
     <div class="row">
@@ -101,8 +154,8 @@
                                     d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                                 <path fill-rule="evenodd"
                                     d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-                            </svg></a></td>
-                    <td><a class="btn btn-sm btn-danger delBtn" href="{% url 'delete_order' i.id %}"><svg
+                            </svg></a>
+                                <a class="btn btn-sm btn-danger delBtn" href="{% url 'delete_order' i.id %}"><svg
                                 xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-x-square" viewBox="0 0 16 16">
                                 <path
@@ -117,7 +170,55 @@
                 </table>
             </div>
         </div>
+    </div><br>
+
+    <div class="row">
+        <div class="col-md">
+            <div class="card card-body">
+                <table class="table table-sm">
+                    <h5>Surat</h5>
+                    <tr>
+                        <th></th>
+                        <th>Nomor Surat</th>
+                        <th>Tanggal</th>
+                        <th>Perihal</th>
+                        <th>Pejabat</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+
+                    {% for i in jenis_surat %}
+                    <td>{{ forloop.counter }}</td>
+                    <td><a href="{% url 'dokumenDetail' i.nomor %}">{{i.nomor}}</a></td>
+                    <td>{{i.nomor.tanggal_surat}}</td>
+                    <td>{{i.nomor.perihal}}</td>
+                    <td>{{i.nomor.nama_pejabat}}</td>
+    
+                    <td><a class="btn btn-sm btn-info" href="{% url 'update_order' i.id %} ">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                <path
+                                    d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                <path fill-rule="evenodd"
+                                    d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                            </svg></a>
+                            <a class="btn btn-sm btn-danger delBtn" href="{% url 'delete_order' i.id %}"><svg
+                                xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-x-square" viewBox="0 0 16 16">
+                                <path
+                                    d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                                <path
+                                    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                            </svg></td>
+                    </tr>
+    
+                    {% endfor %}
+    
+                </table>
+            </div>
+        </div>
     </div>
+
 </div>
 
 <br>
@@ -161,7 +262,6 @@
                                 <path
                                     d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
                             </svg>
-
                     </td>
                     </tr>
 
@@ -200,7 +300,7 @@
                                 <path fill-rule="evenodd"
                                     d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                             </svg></a>
-                        <a href="{% url 'delete_order' i.id %}"><svg xmlns="http://www.w3.org/2000/svg" width="25"
+                        <a class="btnDel" href="{% url 'delete_order' i.id %}"><svg xmlns="http://www.w3.org/2000/svg" width="25"
                                 height="25" fill="currentColor" class="bi bi-x-square" viewBox="0 0 16 16">
                                 <path
                                     d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
@@ -261,6 +361,5 @@
 
     </div>
 </div>
-
 
 {% endblock %}

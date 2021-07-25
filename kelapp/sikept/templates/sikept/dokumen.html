@@ -45,6 +45,7 @@
               <th>Kategori</th>
               <th>Tanggal Surat</th>
               <th>Nama Pejabat</th>
+              <th></th>
             </tr>
           </thead>
         {% for i in dok %}
@@ -65,8 +66,16 @@
           <td>{{i.category}}</td>
           <td>{{i.tanggal_surat}}</td>
           <td>{{i.nama_pejabat}}</td>
+          <td>
+            <a href="{%  url 'delete_dokumen' i.id %}" class="confirm-delete btnDel" title="delete" data-target="#delete"
+              id="deleteButton{{i.id}}">
+              <i class="fas fa-trash-alt btndelete"></i>
+            </a>
+          </td>
+
         </tr>
         {% endfor %}
+
         </table>
         {% if dok.has_other_pages %}
         <nav aria-label="Page navigation example">

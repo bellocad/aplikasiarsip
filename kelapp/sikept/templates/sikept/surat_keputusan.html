@@ -1,9 +1,6 @@
 {% extends 'sikept/main.html' %}
-
 {% block content %}
-
 {% load static %}
-
 {% include 'sikept/status_sk.html' %}
 
 <section class="mb-4">
@@ -45,7 +42,12 @@
               <td>{{i.nomor.perihal}}</td>
               <td>{{i.date_created}}</td>
               <td><a href="{% url 'update_order' i.id %}"><i class="fas fa-edit btnedit"></i></a></td>
-              <td><a class="btn btn-danger btnDel" href="/deleteSK/{{i.id}}/">Delete</a></td>
+              <td><a class="confirm-delete btnDel" href="/deleteSK/{{i.id}}/">
+              <i class="fas fa-trash-alt btndelete"></i></a></td>
+              <td>
+                <a href="{% url 'dokumenDetail' i.nomor %}"><i class="fas fa-eye"></i></a>
+              </td>
+                    
             </tr>
             {% endfor %}
           </tbody>

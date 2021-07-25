@@ -69,8 +69,7 @@
                 <a href="{% url 'update_order' i.id %}"><i class="fas fa-edit btnedit"></i></a>
               </td>
               <td>
-                <a href="{%  url 'delete_order' i.id %}" class="confirm-delete" title="delete" data-bs-toggle="modal"
-                  data-target="#delete" id="deleteButton{{i.id}}">
+                <a href="{%  url 'delete_order' i.id %}" class="confirm-delete btnDel" title="delete"  data-target="#delete" id="deleteButton{{i.id}}">
                   <i class="fas fa-trash-alt btndelete">
 
                   </i>

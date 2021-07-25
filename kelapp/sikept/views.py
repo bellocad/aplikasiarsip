@@ -43,12 +43,15 @@ def home(request):
     pts = Pts.objects.all()
     dokumen = Dokumen.objects.all()
 
+    sk = dokumen.filter(category__startswith='SK')
+
     total_pts = pts.count()
     total_orders = orders.count()
     total_dokumen = dokumen.count()
+    total_sk = sk.count()
 
     rekomendasi = dokumen.filter(category='Rekomendasi').count()
-    sk = dokumen.filter(category__startswith='SK').count()
+
     dikirim = orders.filter(status='Dikirim').count()
     pending = orders.filter(status='Pending').count()
 
@@ -67,7 +70,7 @@ def home(request):
     context = {'order': orders, 'pts': pts, 'total_pts': total_pts,
                'total_orders': total_orders, 'total_dokumen': total_dokumen,
                'sk': sk, 'dikirim': dikirim, 'pending': pending, 'rekomendasi': rekomendasi,
-               'myFilter': myFilter}
+               'myFilter': myFilter, 'total_sk': total_sk}
 
     return render(request, 'sikept/dashboard.html', context)
 
@@ -122,7 +125,7 @@ def uploadDokumen(request):
         form = DokumenForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, ('Berhasil Menambah Dokumen'))
+            messages.success(request, ('Berhasil Upload Dokumen'))
             return redirect('dokumen')
 
     context = {'form': form}
@@ -147,7 +150,8 @@ def pts(request, pk):
         'pts': pts, 'orders': orders,
         'order_count': order_count,
         'jenis_rekom': jenis_rekom,
-        'jenis_pengesahan': jenis_pengesahan
+        'jenis_pengesahan': jenis_pengesahan,
+        'jenis_surat': jenis_surat
     }
     return render(request, 'sikept/pts.html', context)
 
@@ -159,6 +163,7 @@ def createOrder(request):
         form = OrderForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, ('Berhasil Menambahkan Dokumen'))
             return redirect('/')
 
     context = {'form': form}
@@ -173,6 +178,7 @@ def orderOrder(request, pk):
         form = OrderForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, ('Berhasil Menambahkan Dokumen'))
             return redirect('dokumen')
 
     context = {'form': form}
@@ -221,6 +227,12 @@ def deleteSK(request, pk):
     order = Order.objects.get(id=pk)
     order.delete()
     return redirect('surat_keputusan')
+
+
+def deleteDokumen(request, pk):
+    order = Dokumen.objects.get(id=pk)
+    order.delete()
+    return redirect('dokumen')
 
 
 def rekom(request):
@@ -272,7 +284,7 @@ def SKeputusan(request):
     dokumen = Dokumen.objects.all()
     sk = orders.filter(Jenis__startswith='SK')
 
-    total_sk = pts.count()
+    total_sk = sk.count()
     total_orders = orders.count()
     total_dokumen = dokumen.count()
 
