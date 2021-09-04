@@ -77,9 +77,12 @@ class Dokumen(models.Model):
     nomor = models.CharField(max_length=200, null=True)
     perihal = models.CharField(max_length=200, null=True)
     category = models.CharField(max_length=200, null=True, choices=CATEGORY)
-    tanggal_surat = models.DateField("Tanggal Surat", null=True)
+    tanggal_surat = models.DateField(
+        "Tanggal Surat", null=True)
     nama_pejabat = models.CharField(max_length=200, null=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
+    dokumen_file = models.FileField(
+        "Unggah File", null=True, blank=True, upload_to="file/")
     tags = models.ManyToManyField(Tag)
 
     def __str__(self):
